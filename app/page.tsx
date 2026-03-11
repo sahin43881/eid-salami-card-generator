@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from './utils/cropImage';
 
@@ -54,13 +54,12 @@ export default function Home() {
       setIsDownloading(true);
       await new Promise(resolve => setTimeout(resolve, 50));
 
-      const canvas = await html2canvas(cardRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null
+      const dataUrl = await toPng(cardRef.current, {
+        pixelRatio: 2,
+        cacheBust: true,
+        backgroundColor: '#ffffff',
       });
 
-      const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.download = `eid-salami-card.png`;
       link.href = dataUrl;

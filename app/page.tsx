@@ -121,7 +121,7 @@ export default function Home() {
       <div className="w-full p-4 md:p-8 lg:p-12 grow max-w-6xl mx-auto">
         <div className="text-center mb-10 pb-4 border-b border-slate-200">
           <h1 className="text-4xl pt-5 md:text-5xl font-bold tracking-tight text-slate-900 mb-4 bg-clip-text text-transparent bg-linear-to-r from-[#00897b] to-[#004d40] drop-shadow-md">
-            ঈদ সালামি কার্ড ✨
+            ✨ ঈদ সালামি কার্ড
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             ডিজিটাল যুগে এনালগ সেলামি চলে না, তাই তো কিউআর কোডের এই ব্যবস্থা।

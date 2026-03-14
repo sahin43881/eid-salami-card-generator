@@ -4,11 +4,17 @@ import React, { useState, useRef } from 'react';
 import { toPng } from 'html-to-image';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from './utils/cropImage';
+import { QRCodeSVG } from 'qrcode.react';
 
 const FUNNY_MESSAGES = [
   'বড় ভাই, মান-সম্মান বাঁচাতে চাইলে দ্রুত সেলামি পাঠান!',
   '১০০ টাকা দিলে দোয়া ফ্রি, ৫০০ টাকা দিলে কোলাকুলি ফ্রি!',
-  'বাজেট আপডেট: এ বছর সেলামি ৫০০ টাকার নিচে গ্রহণ করা হবে না।'
+  "বড় ভাই মানেই তো চলন্ত এটিএম (ATM), তাড়াতাড়ি উইথড্র করার সুযোগ দিন।",
+  "সালামি দিলে ছোট থাকব, না দিলে কিন্তু আজ থেকে সমবয়সী বা বড় হয়ে যাব!",
+  "খালি মুখে ঈদ মোবারক বললে পেটে গ্যাস হয়, সালামি দিয়ে মুখ মিষ্টি করুন।",
+  "আপনার সালামি আমার ওয়ালেটে '404 Not Found' হয়ে আছে, দ্রুত 'Success' করুন!",
+
+
 ];
 
 const COLOR_PRESETS = [
@@ -233,6 +239,9 @@ export default function Home() {
                     )}
                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                   </label>
+                  <p className="mt-2 text-xs text-slate-500 text-center">
+                    নম্বর দিলে স্বয়ংক্রিয়ভাবে কিউআর তৈরি হবে। চাইলে কাস্টম কিউআরও আপলোড করতে পারেন।
+                  </p>
                 </div>
               </div>
 
@@ -332,19 +341,16 @@ export default function Home() {
                     {!FUNNY_MESSAGES.includes(formData.message) && (
                       <p className="text-white/70 text-sm font-semibold mb-1">ঈদের সেলামি পাঠাতে পারেন</p>
                     )}
-                    <p className={`text-white font-bold mb-6 tracking-wide drop-shadow-md pb-1 break-words px-2 ${formData.message && formData.message.length > 20 ? 'text-xl md:text-2xl leading-snug' : 'text-3xl truncate'}`}>
+                    <p className={`text-white font-bold mb-6 tracking-wide drop-shadow-md pb-1 wrap-break-word px-2 ${formData.message && formData.message.length > 20 ? 'text-xl md:text-2xl leading-snug' : 'text-3xl truncate'}`}>
                       {formData.message || 'আপনার নাম'}
                     </p>
 
                     <div className="flex flex-col items-center gap-4 relative z-20">
 
                       {/* Payment Details */}
-                      <div className="flex flex-col items-center mb-2">
-                        <div className="bg-white/10 backdrop-blur-md text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-lg border border-white/20 mb-2 whitespace-nowrap uppercase tracking-wider">
+                      <div className="flex flex-col items-center mb-3">
+                        <div className="bg-white/10 backdrop-blur-md text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-lg border border-white/20 whitespace-nowrap uppercase tracking-wider">
                           {formData.paymentMethod}
-                        </div>
-                        <div className="text-white text-2xl md:text-3xl font-bold tracking-wider drop-shadow-lg pb-1">
-                          {formData.phoneNumber || '০১৭XX-XXXXXX'}
                         </div>
                       </div>
 
@@ -352,6 +358,18 @@ export default function Home() {
                       <div className="relative p-2 bg-white rounded-3xl shadow-2xl shadow-black/30 transform group-hover:scale-105 transition-transform duration-500 ring-2 ring-white/20">
                         {formData.qrCode ? (
                           <img src={formData.qrCode} alt="QR Code" className="w-32 h-32 object-contain rounded-2xl" />
+                        ) : formData.phoneNumber ? (
+                          <div className="w-32 h-32 rounded-2xl overflow-hidden flex flex-col items-center justify-center bg-white p-1 gap-1">
+                            <QRCodeSVG
+                              value={formData.phoneNumber}
+                              size={100}
+                              bgColor="#ffffff"
+                              fgColor="#0f172a"
+                              level="Q"
+                              marginSize={0}
+                            />
+                            <span className="text-[9px] font-bold text-slate-800 uppercase tracking-wider text-center pt-0.5">Scan to Copy Number</span>
+                          </div>
                         ) : (
                           <div className="w-32 h-32 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 bg-slate-50">
                             <svg className="w-8 h-8 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
